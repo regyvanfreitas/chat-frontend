@@ -273,9 +273,15 @@ export const ChatPage: React.FC = () => {
                     <div className="flex items-center space-x-3">
                       <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
                         <span className="text-white text-sm font-semibold">
-                          {selectedChat.name?.[0]?.toUpperCase() ||
-                            selectedChat.participants?.[0]?.name?.[0]?.toUpperCase() ||
-                            "?"}
+                          {selectedChat.isGroup
+                            ? (selectedChat.name || "G").charAt(0).toUpperCase()
+                            : (
+                                selectedChat.participants?.find(
+                                  (p) => p.id !== user?.id
+                                )?.name || "?"
+                              )
+                                .charAt(0)
+                                .toUpperCase()}
                         </span>
                       </div>
                       <div>
