@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import type { User } from "../types";
 import { apiService } from "../services/api";
 import { useAuth } from "../hooks/useAuth";
+import { PlusSvg, XSvg, UserSvg, CheckSvg } from "./Icons";
 
 interface NewChatModalProps {
   isOpen: boolean;
@@ -97,19 +98,7 @@ export const NewChatModal: React.FC<NewChatModalProps> = ({
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center space-x-3">
               <div className="h-10 w-10 bg-blue-500 rounded-xl flex items-center justify-center shadow-lg">
-                <svg
-                  className="h-5 w-5 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                  />
-                </svg>
+                <PlusSvg className="h-5 w-5 text-white" />
               </div>
               <h3 className="text-xl font-bold text-gray-900">Nova Conversa</h3>
             </div>
@@ -117,19 +106,7 @@ export const NewChatModal: React.FC<NewChatModalProps> = ({
               onClick={onClose}
               className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-all duration-200 cursor-pointer"
             >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              <XSvg className="w-6 h-6" />
             </button>
           </div>
 
@@ -185,19 +162,7 @@ export const NewChatModal: React.FC<NewChatModalProps> = ({
               ) : filteredUsers?.length === 0 ? (
                 <div className="text-center py-12 text-gray-500">
                   <div className="h-12 w-12 bg-gray-200 rounded-xl flex items-center justify-center mx-auto mb-3">
-                    <svg
-                      className="w-6 h-6 text-gray-400"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                      />
-                    </svg>
+                    <UserSvg className="w-6 h-6 text-gray-400" />
                   </div>
                   <p className="font-medium text-gray-900">
                     {searchTerm
@@ -237,17 +202,7 @@ export const NewChatModal: React.FC<NewChatModalProps> = ({
                       </div>
                       {selectedUsers?.includes(user.id) && (
                         <div className="text-blue-500 bg-white rounded-full p-1 shadow-sm">
-                          <svg
-                            className="w-4 h-4"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
+                          <CheckSvg className="w-4 h-4" />
                         </div>
                       )}
                     </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { LogoutModal } from "./LogoutModal";
+import { ChatSvg, LogoutSvg } from "./Icons";
 
 export const Navbar: React.FC = () => {
   const { user, logout } = useAuth();
@@ -46,19 +47,7 @@ export const Navbar: React.FC = () => {
           <div className="hidden lg:flex items-center space-x-4">
             <div className="flex items-center space-x-3">
               <div className="h-10 w-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-lg border border-white/30">
-                <svg
-                  className="h-6 w-6 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                  />
-                </svg>
+                <ChatSvg className="h-6 w-6 text-white" />
               </div>
               <div>
                 <h1 className="text-xl font-bold text-white">ChatApp</h1>
@@ -93,19 +82,7 @@ export const Navbar: React.FC = () => {
               className="inline-flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/30 text-sm font-medium rounded-xl text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer transform hover:scale-105"
               title="Sair da conta"
             >
-              <svg
-                className="mr-2 h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"
-                />
-              </svg>
+              <LogoutSvg className="mr-2 h-4 w-4" />
               Sair
             </button>
           </div>
@@ -136,19 +113,7 @@ export const Navbar: React.FC = () => {
                     onClick={handleLogoutClick}
                     className="w-full px-4 py-3 text-left text-sm text-red-600 hover:bg-red-50 transition-colors cursor-pointer flex items-center"
                   >
-                    <svg
-                      className="mr-3 h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"
-                      />
-                    </svg>
+                    <LogoutSvg className="mr-3 h-4 w-4" />
                     Sair da conta
                   </button>
                 </div>
