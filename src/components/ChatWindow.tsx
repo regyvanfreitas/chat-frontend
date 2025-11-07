@@ -88,6 +88,42 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
     return (otherParticipant?.name || "?").charAt(0).toUpperCase();
   };
 
+  const groupMessagesByDate = () => {
+    const grouped: { [date: string]: typeof messages } = {};
+
+    messages.forEach((message) => {
+      const messageDate = new Date(message.createdAt);
+      const dateKey = messageDate.toDateString();
+
+      if (!grouped[dateKey]) {
+        grouped[dateKey] = [];
+      }
+      grouped[dateKey].push(message);
+    });
+
+    return grouped;
+  };
+
+  const formatDateSeparator = (dateString: string): string => {
+    const date = new Date(dateString);
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    if (date.toDateString() === today.toDateString()) {
+      return "Hoje";
+    } else if (date.toDateString() === yesterday.toDateString()) {
+      return "Ontem";
+    } else {
+      return date.toLocaleDateString("pt-BR", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    }
+  };
+
   return (
     <div className="flex flex-col h-full">
       {showHeader && (
@@ -174,9 +210,28 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
           </div>
         ) : (
           <>
-            {messages.map((message) => (
-              <MessageItem key={message.id} message={message} />
-            ))}
+            {Object.entries(groupMessagesByDate())
+              .sort(
+                ([dateA], [dateB]) =>
+                  new Date(dateA).getTime() - new Date(dateB).getTime()
+              )
+              .map(([dateKey, dateMessages]) => (
+                <div key={dateKey}>
+                  <div className="flex items-center justify-center my-6">
+                    <div className="flex-1 border-t border-gray-200"></div>
+                    <div className="px-4 py-2 bg-gray-100 rounded-full border border-gray-200">
+                      <span className="text-sm font-medium text-gray-600">
+                        {formatDateSeparator(dateKey)}
+                      </span>
+                    </div>
+                    <div className="flex-1 border-t border-gray-200"></div>
+                  </div>
+
+                  {dateMessages.map((message) => (
+                    <MessageItem key={message.id} message={message} />
+                  ))}
+                </div>
+              ))}
             <div ref={messagesEndRef} />
           </>
         )}

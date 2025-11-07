@@ -10,7 +10,7 @@ export const useChats = () => {
 
   useEffect(() => {
     fetchChats();
-  }, [selectedChat?.id]);
+  }, []);
 
   useEffect(() => {
     const handleMessageCreated = (newMessage: Message) => {
@@ -54,11 +54,17 @@ export const useChats = () => {
     try {
       setIsLoading(true);
       const newChat = await apiService.createChat(request);
-      setChats((prevChats) => {
-        const currentChats = Array.isArray(prevChats) ? prevChats : [];
-        return [...currentChats, newChat];
-      });
-      setSelectedChat(newChat);
+
+      await fetchChats();
+
+      const updatedChats = await apiService.getChats();
+      const createdChat = updatedChats.find((chat) => chat.id === newChat.id);
+
+      if (createdChat) {
+        setSelectedChat(createdChat);
+      } else {
+        setSelectedChat(newChat);
+      }
     } catch (error) {
       console.error("Error creating chat:", error);
       alert("Erro ao criar chat");

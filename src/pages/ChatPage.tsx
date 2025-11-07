@@ -4,11 +4,13 @@ import { ChatList } from "../components/ChatList";
 import { ChatWindow } from "../components/ChatWindow";
 import { NewChatModal } from "../components/NewChatModal";
 import { useChats } from "../hooks/useChats";
+import { useAuth } from "../hooks/useAuth";
 import type { Chat } from "../types";
 
 export const ChatPage: React.FC = () => {
   const { chats, selectedChat, setSelectedChat, createChat, isLoading } =
     useChats();
+  const { user } = useAuth();
   const [showNewChatModal, setShowNewChatModal] = useState(false);
   const [showChatView, setShowChatView] = useState(false);
 
@@ -278,13 +280,17 @@ export const ChatPage: React.FC = () => {
                       </div>
                       <div>
                         <h3 className="font-semibold text-gray-900">
-                          {selectedChat.name ||
-                            selectedChat.participants?.[0]?.name ||
-                            "Chat"}
+                          {selectedChat.isGroup
+                            ? selectedChat.name || "Grupo sem nome"
+                            : selectedChat.participants?.find(
+                                (p) => p.id !== user?.id
+                              )?.name || "Usuário desconhecido"}
                         </h3>
                         <p className="text-xs text-gray-500">
-                          {selectedChat.participants?.length > 2
-                            ? `${selectedChat.participants?.length} participantes`
+                          {selectedChat.isGroup
+                            ? `${
+                                selectedChat.participants?.length || 0
+                              } participantes`
                             : "Chat individual"}
                         </p>
                       </div>

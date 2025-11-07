@@ -22,41 +22,15 @@ export const ChatList: React.FC<ChatListProps> = ({
     return [...chats]
       .filter((chat) => chat && chat.id)
       .sort((a, b) => {
-        const aLastMessageDate = a.lastMessage?.createdAt;
-        const bLastMessageDate = b.lastMessage?.createdAt;
-        const aChatCreatedAt = new Date(a.createdAt);
-        const bChatCreatedAt = new Date(b.createdAt);
-        const now = new Date();
+        const aDate = a.lastMessage?.createdAt
+          ? new Date(a.lastMessage.createdAt)
+          : new Date(a.createdAt);
 
-        const isRecentlyCreated = (createdAt: Date) => {
-          const timeDiff = now.getTime() - createdAt.getTime();
-          const hoursInMs = 24 * 60 * 60 * 1000;
-          return timeDiff <= hoursInMs;
-        };
+        const bDate = b.lastMessage?.createdAt
+          ? new Date(b.lastMessage.createdAt)
+          : new Date(b.createdAt);
 
-        const aIsRecentWithoutMessages =
-          !aLastMessageDate && isRecentlyCreated(aChatCreatedAt);
-        const bIsRecentWithoutMessages =
-          !bLastMessageDate && isRecentlyCreated(bChatCreatedAt);
-
-        if (aIsRecentWithoutMessages && bIsRecentWithoutMessages) {
-          return bChatCreatedAt.getTime() - aChatCreatedAt.getTime();
-        }
-
-        if (aIsRecentWithoutMessages && !bIsRecentWithoutMessages) return -1;
-        if (!aIsRecentWithoutMessages && bIsRecentWithoutMessages) return 1;
-
-        if (aLastMessageDate && bLastMessageDate) {
-          return (
-            new Date(bLastMessageDate).getTime() -
-            new Date(aLastMessageDate).getTime()
-          );
-        }
-
-        if (aLastMessageDate && !bLastMessageDate) return -1;
-        if (!aLastMessageDate && bLastMessageDate) return 1;
-
-        return bChatCreatedAt.getTime() - aChatCreatedAt.getTime();
+        return bDate.getTime() - aDate.getTime();
       });
   }, [chats]);
 

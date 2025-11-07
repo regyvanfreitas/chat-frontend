@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import type { Message } from "../types";
 import { apiService } from "../services/api";
 import { websocketService } from "../services/websocket";
@@ -8,30 +8,26 @@ export const useMessages = (chatId: number | null) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSending, setIsSending] = useState(false);
 
-  const fetchMessages = useCallback(async (): Promise<void> => {
-    if (!chatId) return;
-
-    try {
-      setIsLoading(true);
-      const messagesList = await apiService.getMessages(chatId);
-      setMessages(messagesList);
-    } catch (error) {
-      console.error("Error fetching messages:", error);
-      alert("Erro ao carregar mensagens");
-    } finally {
-      setIsLoading(false);
-    }
-  }, [chatId]);
-
   useEffect(() => {
     if (!chatId) {
       setMessages([]);
       return;
     }
 
-    fetchMessages();
+    const fetchMessages = async (): Promise<void> => {
+      try {
+        setIsLoading(true);
+        const messagesList = await apiService.getMessages(chatId);
+        setMessages(messagesList);
+      } catch (error) {
+        console.error("Error fetching messages:", error);
+        alert("Erro ao carregar mensagens");
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    websocketService.joinChat(chatId);
+    fetchMessages();
 
     const handleMessageCreated = (newMessage: Message) => {
       if (newMessage.chatId === chatId) {
@@ -48,10 +44,9 @@ export const useMessages = (chatId: number | null) => {
     websocketService.on<Message>("messageCreated", handleMessageCreated);
 
     return () => {
-      websocketService.leaveChat(chatId);
       websocketService.off("messageCreated");
     };
-  }, [chatId, fetchMessages]);
+  }, [chatId]);
 
   const sendMessage = async (content: string): Promise<void> => {
     if (!chatId || !content.trim()) return;
@@ -73,12 +68,27 @@ export const useMessages = (chatId: number | null) => {
     websocketService.sendMessage(chatId, content.trim());
   };
 
+  const refetchMessages = async (): Promise<void> => {
+    if (!chatId) return;
+
+    try {
+      setIsLoading(true);
+      const messagesList = await apiService.getMessages(chatId);
+      setMessages(messagesList);
+    } catch (error) {
+      console.error("Error refetching messages:", error);
+      alert("Erro ao carregar mensagens");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     messages,
     isLoading,
     isSending,
     sendMessage,
     sendMessageViaWebSocket,
-    refetch: fetchMessages,
+    refetch: refetchMessages,
   };
 };
