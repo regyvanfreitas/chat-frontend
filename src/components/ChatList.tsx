@@ -1,4 +1,5 @@
 import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import type { Chat } from "../types";
 import { ChatItem } from "./ChatItem";
 
@@ -15,6 +16,50 @@ export const ChatList: React.FC<ChatListProps> = ({
   onChatSelect,
   isLoading,
 }) => {
+  const sortedChats = React.useMemo(() => {
+    if (!chats || chats.length === 0) return [];
+
+    return [...chats]
+      .filter((chat) => chat && chat.id)
+      .sort((a, b) => {
+        const aLastMessageDate = a.lastMessage?.createdAt;
+        const bLastMessageDate = b.lastMessage?.createdAt;
+        const aChatCreatedAt = new Date(a.createdAt);
+        const bChatCreatedAt = new Date(b.createdAt);
+        const now = new Date();
+
+        const isRecentlyCreated = (createdAt: Date) => {
+          const timeDiff = now.getTime() - createdAt.getTime();
+          const hoursInMs = 24 * 60 * 60 * 1000;
+          return timeDiff <= hoursInMs;
+        };
+
+        const aIsRecentWithoutMessages =
+          !aLastMessageDate && isRecentlyCreated(aChatCreatedAt);
+        const bIsRecentWithoutMessages =
+          !bLastMessageDate && isRecentlyCreated(bChatCreatedAt);
+
+        if (aIsRecentWithoutMessages && bIsRecentWithoutMessages) {
+          return bChatCreatedAt.getTime() - aChatCreatedAt.getTime();
+        }
+
+        if (aIsRecentWithoutMessages && !bIsRecentWithoutMessages) return -1;
+        if (!aIsRecentWithoutMessages && bIsRecentWithoutMessages) return 1;
+
+        if (aLastMessageDate && bLastMessageDate) {
+          return (
+            new Date(bLastMessageDate).getTime() -
+            new Date(aLastMessageDate).getTime()
+          );
+        }
+
+        if (aLastMessageDate && !bLastMessageDate) return -1;
+        if (!aLastMessageDate && bLastMessageDate) return 1;
+
+        return bChatCreatedAt.getTime() - aChatCreatedAt.getTime();
+      });
+  }, [chats]);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-32">
@@ -54,16 +99,28 @@ export const ChatList: React.FC<ChatListProps> = ({
 
   return (
     <div className="flex-1 overflow-y-auto py-2">
-      {chats
-        ?.filter((chat) => chat && chat.id)
-        ?.map((chat) => (
-          <ChatItem
+      <AnimatePresence mode="popLayout">
+        {sortedChats.map((chat) => (
+          <motion.div
             key={chat.id}
-            chat={chat}
-            isSelected={selectedChat?.id === chat.id}
-            onClick={() => onChatSelect(chat)}
-          />
+            layout
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{
+              layout: { duration: 0.3, ease: "easeInOut" },
+              opacity: { duration: 0.2 },
+              y: { duration: 0.2 },
+            }}
+          >
+            <ChatItem
+              chat={chat}
+              isSelected={selectedChat?.id === chat.id}
+              onClick={() => onChatSelect(chat)}
+            />
+          </motion.div>
         ))}
+      </AnimatePresence>
     </div>
   );
 };

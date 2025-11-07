@@ -48,12 +48,7 @@ export const Navbar: React.FC = () => {
           </div>
 
           <div className="flex items-center space-x-6">
-            <div className="hidden sm:flex items-center space-x-2">
-              <div className="h-2 w-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span className="text-sm text-blue-100">Online</span>
-            </div>
-
-            <div className="flex items-center space-x-3 bg-white/10 backdrop-blur-sm rounded-xl px-4 py-2 border border-white/20">
+            <div className="flex items-center space-x-3  backdrop-blur-sm px-4 py-2 ">
               <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-lg border border-blue-200">
                 <span className="text-blue-600 text-lg font-bold">
                   {user?.name?.charAt(0)?.toUpperCase() || "?"}

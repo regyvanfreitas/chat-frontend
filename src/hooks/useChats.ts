@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import type { Chat, CreateChatRequest } from "../types";
+import type { Chat, CreateChatRequest, Message } from "../types";
 import { apiService } from "../services/api";
 import { websocketService } from "../services/websocket";
 
@@ -10,6 +10,30 @@ export const useChats = () => {
 
   useEffect(() => {
     fetchChats();
+  }, [selectedChat?.id]);
+
+  useEffect(() => {
+    const handleMessageCreated = (newMessage: Message) => {
+      setChats((prevChats) => {
+        return prevChats.map((chat) => {
+          if (chat.id === newMessage.chatId) {
+            return {
+              ...chat,
+              lastMessage: newMessage,
+              unreadCount:
+                chat.id === selectedChat?.id ? 0 : (chat.unreadCount || 0) + 1,
+            };
+          }
+          return chat;
+        });
+      });
+    };
+
+    websocketService.on<Message>("messageCreated", handleMessageCreated);
+
+    return () => {
+      websocketService.off("messageCreated");
+    };
   }, [selectedChat?.id]);
 
   const fetchChats = async (): Promise<void> => {
