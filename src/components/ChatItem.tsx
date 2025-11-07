@@ -71,29 +71,39 @@ export const ChatItem: React.FC<ChatItemProps> = ({
   return (
     <div
       onClick={onClick}
-      className={`flex items-center p-3 cursor-pointer border-b border-gray-100 hover:bg-gray-50 transition-colors ${
-        isSelected ? "bg-blue-50 border-blue-200" : ""
+      className={`flex items-center p-4 mx-3 my-2 cursor-pointer rounded-xl transition-all duration-200 hover:scale-[1.02] hover:shadow-md border border-gray-300 ${
+        isSelected
+          ? "bg-blue-50 border-blue-400 shadow-md"
+          : "hover:bg-gray-50/80 hover:border-gray-400"
       }`}
     >
       <div className="shrink-0">
-        <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
-          <span className="text-gray-600 font-medium">{getChatAvatar()}</span>
+        <div
+          className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-lg ${
+            chat.isGroup
+              ? "bg-gradient-to-br from-purple-500 to-purple-600"
+              : "bg-gradient-to-br from-blue-500 to-cyan-600"
+          }`}
+        >
+          <span className="text-white font-semibold text-lg">
+            {getChatAvatar()}
+          </span>
         </div>
       </div>
 
-      <div className="ml-3 flex-1 min-w-0">
-        <div className="flex items-center justify-between">
-          <h3 className="text-sm font-medium text-gray-900 truncate">
+      <div className="ml-4 flex-1 min-w-0">
+        <div className="flex items-center justify-between mb-1">
+          <h3 className="text-sm font-semibold text-gray-900 truncate">
             {getChatName()}
           </h3>
           {chat.lastMessage && (
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-gray-500 font-medium">
               {formatTime(chat.lastMessage.createdAt)}
             </span>
           )}
         </div>
 
-        <p className="text-sm text-gray-500 truncate mt-1">
+        <p className="text-sm text-gray-600 truncate leading-relaxed">
           {getLastMessagePreview()}
         </p>
       </div>

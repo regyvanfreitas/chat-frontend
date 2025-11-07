@@ -80,7 +80,7 @@ export const MessageInput: React.FC<MessageInputProps> = ({
         <button
           type="submit"
           disabled={!message.trim() || isSending || disabled}
-          className="bg-blue-500 hover:bg-blue-600 disabled:opacity-50 h-10 disabled:cursor-not-allowed text-white rounded-lg p-2.5 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="bg-blue-500 hover:bg-blue-600 disabled:opacity-50 h-10 disabled:cursor-not-allowed text-white rounded-lg p-2.5 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
         >
           {isSending ? (
             <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>

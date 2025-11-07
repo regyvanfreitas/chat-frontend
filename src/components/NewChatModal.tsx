@@ -64,10 +64,9 @@ export const NewChatModal: React.FC<NewChatModalProps> = ({
     try {
       setIsCreating(true);
       const isGroup = selectedUsers.length > 1;
-      await onCreateChat(
-        selectedUsers,
-        isGroup ? chatName || "Novo Grupo" : undefined
-      );
+      const groupName = isGroup ? chatName.trim() || "Novo Grupo" : undefined;
+
+      await onCreateChat(selectedUsers, groupName);
 
       setSelectedUsers([]);
       setChatName("");
@@ -92,14 +91,31 @@ export const NewChatModal: React.FC<NewChatModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-      <div className="relative top-10 mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white">
-        <div className="mt-3">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-medium text-gray-900">Nova Conversa</h3>
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
+      <div className="relative bg-white/95 backdrop-blur-sm border border-blue-100/50 w-full max-w-lg shadow-2xl rounded-2xl">
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center space-x-3">
+              <div className="h-10 w-10 bg-blue-500 rounded-xl flex items-center justify-center shadow-lg">
+                <svg
+                  className="h-5 w-5 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900">Nova Conversa</h3>
+            </div>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600"
+              className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-all duration-200 cursor-pointer"
             >
               <svg
                 className="w-6 h-6"
@@ -117,100 +133,142 @@ export const NewChatModal: React.FC<NewChatModalProps> = ({
             </button>
           </div>
 
-          <div className="mb-4">
-            <input
-              type="text"
-              placeholder="Buscar usuários..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-chat-primary focus:border-transparent"
-            />
-          </div>
-
-          {isGroup && (
-            <div className="mb-4">
+          <div className="space-y-4">
+            <div>
               <input
                 type="text"
-                placeholder="Nome do grupo (opcional)"
-                value={chatName}
-                onChange={(e) => setChatName(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-chat-primary focus:border-transparent"
+                placeholder="Buscar usuários..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder-gray-400"
               />
             </div>
-          )}
 
-          {selectedUsers.length > 0 && (
-            <div className="mb-3 text-sm text-gray-600">
-              {selectedUsers.length} usuário(s) selecionado(s)
-              {isGroup && " - Grupo será criado"}
-            </div>
-          )}
+            {isGroup && (
+              <div>
+                <input
+                  type="text"
+                  placeholder="Nome do grupo (opcional)"
+                  value={chatName}
+                  onChange={(e) => setChatName(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder-gray-400"
+                />
+              </div>
+            )}
 
-          <div className="max-h-60 overflow-y-auto border border-gray-200 rounded-lg">
-            {isLoading ? (
-              <div className="flex items-center justify-center py-8">
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-chat-primary"></div>
-              </div>
-            ) : filteredUsers?.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">
-                {searchTerm
-                  ? "Nenhum usuário encontrado"
-                  : "Nenhum usuário disponível"}
-              </div>
-            ) : (
-              filteredUsers?.map((user) => (
-                <div
-                  key={user.id}
-                  onClick={() => handleUserSelect(user.id)}
-                  className={`flex items-center p-3 cursor-pointer hover:bg-gray-50 border-b border-gray-100 last:border-b-0 ${
-                    selectedUsers.includes(user.id) ? "bg-blue-50" : ""
-                  }`}
-                >
-                  <div className="shrink-0">
-                    <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-                      <span className="text-gray-600 font-medium">
-                        {user.name?.charAt(0)?.toUpperCase()}
-                      </span>
-                    </div>
+            {selectedUsers.length > 0 && (
+              <div className="bg-blue-50 border border-blue-200 rounded-xl p-3">
+                <div className="flex items-center space-x-2">
+                  <div className="h-4 w-4 bg-blue-500 rounded-full flex items-center justify-center">
+                    <span className="text-white text-xs font-bold">
+                      {selectedUsers.length}
+                    </span>
                   </div>
-                  <div className="ml-3 flex-1">
-                    <p className="text-sm font-medium text-gray-900">
-                      {user.name}
+                  <span className="text-sm font-medium text-blue-900">
+                    {selectedUsers.length} usuário(s) selecionado(s)
+                    {isGroup && " - Grupo será criado"}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            <div className="max-h-80 overflow-y-auto border border-gray-200 rounded-xl bg-gray-50/50">
+              {isLoading ? (
+                <div className="flex items-center justify-center py-12">
+                  <div className="flex flex-col items-center space-y-3">
+                    <div className="animate-spin rounded-full h-8 w-8 border-2 border-blue-500 border-t-transparent"></div>
+                    <span className="text-sm text-gray-500">
+                      Carregando usuários...
+                    </span>
+                  </div>
+                </div>
+              ) : filteredUsers?.length === 0 ? (
+                <div className="text-center py-12 text-gray-500">
+                  <div className="h-12 w-12 bg-gray-200 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <svg
+                      className="w-6 h-6 text-gray-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      />
+                    </svg>
+                  </div>
+                  <p className="font-medium text-gray-900">
+                    {searchTerm
+                      ? "Nenhum usuário encontrado"
+                      : "Nenhum usuário disponível"}
+                  </p>
+                  {searchTerm && (
+                    <p className="text-sm text-gray-500 mt-1">
+                      Tente buscar por outro termo
                     </p>
-                    <p className="text-sm text-gray-500">{user.email}</p>
-                  </div>
-                  {selectedUsers?.includes(user.id) && (
-                    <div className="text-chat-primary">
-                      <svg
-                        className="w-5 h-5"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </div>
                   )}
                 </div>
-              ))
-            )}
+              ) : (
+                <div className="p-2">
+                  {filteredUsers?.map((user) => (
+                    <div
+                      key={user.id}
+                      onClick={() => handleUserSelect(user.id)}
+                      className={`flex items-center p-3 cursor-pointer rounded-xl transition-all duration-200 hover:scale-[1.02] mb-1 ${
+                        selectedUsers.includes(user.id)
+                          ? "bg-blue-100 border border-blue-200 shadow-sm"
+                          : "hover:bg-white/80"
+                      }`}
+                    >
+                      <div className="shrink-0">
+                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center shadow-lg">
+                          <span className="text-white font-semibold text-lg">
+                            {user.name?.charAt(0)?.toUpperCase()}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="ml-4 flex-1">
+                        <p className="text-sm font-semibold text-gray-900">
+                          {user.name}
+                        </p>
+                        <p className="text-sm text-gray-600">{user.email}</p>
+                      </div>
+                      {selectedUsers?.includes(user.id) && (
+                        <div className="text-blue-500 bg-white rounded-full p-1 shadow-sm">
+                          <svg
+                            className="w-4 h-4"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
-          <div className="flex justify-end space-x-3 mt-4">
+          <div className="flex justify-end space-x-3 mt-6 pt-4 border-t border-gray-100">
             <button
               onClick={onClose}
               disabled={isCreating}
-              className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition-colors disabled:opacity-50"
+              className="px-6 py-3 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition-all duration-200 disabled:opacity-50 cursor-pointer"
             >
               Cancelar
             </button>
             <button
               onClick={handleCreateChat}
               disabled={selectedUsers.length === 0 || isCreating}
-              className="px-4 py-2 bg-chat-primary text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-xl hover:bg-blue-600 transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none cursor-pointer shadow-lg"
             >
               {isCreating ? "Criando..." : "Criar Conversa"}
             </button>

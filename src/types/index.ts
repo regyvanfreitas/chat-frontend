@@ -58,9 +58,8 @@ export interface RegisterRequest {
 }
 
 export interface CreateChatRequest {
-  name?: string;
+  title?: string;
   participantIds: number[];
-  isGroup?: boolean;
 }
 
 export interface SendMessageRequest {

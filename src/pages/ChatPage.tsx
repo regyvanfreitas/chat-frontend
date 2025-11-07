@@ -25,11 +25,12 @@ export const ChatPage: React.FC = () => {
   ): Promise<void> => {
     try {
       const isGroup = participantIds.length > 1;
-      await createChat({
+      const chatData = {
         participantIds,
-        isGroup,
-        name: isGroup ? chatName : undefined,
-      });
+        title: isGroup ? chatName : undefined,
+      };
+
+      await createChat(chatData);
       setShowNewChatModal(false);
     } catch (error) {
       console.error("Error creating chat:", error);
@@ -38,17 +39,19 @@ export const ChatPage: React.FC = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col">
+    <div className="h-screen flex flex-col bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50">
       <Navbar />
 
       <div className="flex flex-1 overflow-hidden">
-        <div className="w-80 bg-white border-r border-gray-200 flex flex-col">
-          <div className="p-4 border-b border-gray-200">
+        <div className="w-80 bg-white/95 backdrop-blur-sm border-r border-blue-100/50 shadow-lg flex flex-col">
+          <div className="p-6 border-b border-gray-100/80">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-medium text-gray-900">Conversas</h2>
+              <div className="flex items-center space-x-3">
+                <h2 className="text-xl font-bold text-gray-900">Conversas</h2>
+              </div>
               <button
                 onClick={handleNewChat}
-                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
+                className="p-3 text-blue-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200 transform hover:scale-105 cursor-pointer"
                 title="Nova conversa"
               >
                 <svg
@@ -76,38 +79,48 @@ export const ChatPage: React.FC = () => {
           />
         </div>
 
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col bg-white/95 backdrop-blur-sm border-l border-blue-100/50 shadow-lg overflow-hidden">
           {selectedChat ? (
             <ChatWindow chat={selectedChat} />
           ) : (
-            <div className="flex-1 flex items-center justify-center bg-gray-50">
-              <div className="text-center">
-                <svg
-                  className="mx-auto h-24 w-24 text-gray-300"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                  />
-                </svg>
-                <h3 className="mt-4 text-lg font-medium text-gray-900">
-                  Selecione uma conversa
-                </h3>
-                <p className="mt-2 text-sm text-gray-500">
-                  Escolha uma conversa da lista ao lado para começar a conversar
-                </p>
-                {chats?.length === 0 && (
+            <div className="flex-1 flex items-center justify-center">
+              <div className="text-center space-y-6 max-w-md mx-auto px-6">
+                <div className="flex flex-col items-center">
+                  <div className="h-24 w-24 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-3xl flex items-center justify-center shadow-2xl mb-6">
+                    <svg
+                      className="h-12 w-12 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-bold text-gray-900">
+                    Bem-vindo ao ChatApp!
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    {chats?.length === 0
+                      ? "Você ainda não tem conversas. Que tal começar uma nova conversa?"
+                      : "Selecione uma conversa da lista para começar a conversar ou inicie uma nova."}
+                  </p>
+                </div>
+
+                <div className="pt-4">
                   <button
                     onClick={handleNewChat}
-                    className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    className="inline-flex items-center px-6 py-3 border border-transparent text-sm font-semibold rounded-xl shadow-sm text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 transform hover:scale-105 cursor-pointer"
                   >
                     <svg
-                      className="mr-2 h-4 w-4"
+                      className="mr-2 h-5 w-5"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -121,6 +134,65 @@ export const ChatPage: React.FC = () => {
                     </svg>
                     Iniciar nova conversa
                   </button>
+                </div>
+
+                {chats?.length === 0 && (
+                  <div className="pt-8 space-y-3">
+                    <div className="flex items-center justify-center space-x-3 text-gray-500">
+                      <div className="h-6 w-6 bg-blue-100 rounded-full flex items-center justify-center">
+                        <svg
+                          className="h-3 w-3 text-blue-500"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      </div>
+                      <span className="text-sm">Mensagens em tempo real</span>
+                    </div>
+                    <div className="flex items-center justify-center space-x-3 text-gray-500">
+                      <div className="h-6 w-6 bg-blue-100 rounded-full flex items-center justify-center">
+                        <svg
+                          className="h-3 w-3 text-blue-500"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      </div>
+                      <span className="text-sm">Interface intuitiva</span>
+                    </div>
+                    <div className="flex items-center justify-center space-x-3 text-gray-500">
+                      <div className="h-6 w-6 bg-blue-100 rounded-full flex items-center justify-center">
+                        <svg
+                          className="h-3 w-3 text-blue-500"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      </div>
+                      <span className="text-sm">Comunicação segura</span>
+                    </div>
+                  </div>
                 )}
               </div>
             </div>

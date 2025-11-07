@@ -63,7 +63,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setUser(loggedUser);
 
       websocketService.connect(authToken);
-      console.log("WebSocket connection initiated with token");
     } catch (error) {
       console.error("Login error:", error);
       throw error;
