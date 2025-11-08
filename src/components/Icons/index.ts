@@ -15,3 +15,5 @@ export { AlertCircleSvg } from "./AlertCircleSvg";
 export { LoadingSvg } from "./LoadingSvg";
 export { LightningSvg } from "./LightningSvg";
 export { UsersSvg } from "./UsersSvg";
+export { LoadingSpinnerSvg } from "./LoadingSpinnerSvg";
+export { ErrorSvg } from "./ErrorSvg";

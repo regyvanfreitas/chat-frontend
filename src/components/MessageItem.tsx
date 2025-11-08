@@ -1,12 +1,17 @@
 import React from "react";
 import type { Message } from "../types";
 import { useAuth } from "../hooks/useAuth";
+import { LoadingSpinnerSvg, ErrorSvg, CheckSvg } from "./Icons";
 
 interface MessageItemProps {
   message: Message;
+  onRetry?: (message: Message) => void;
 }
 
-export const MessageItem: React.FC<MessageItemProps> = ({ message }) => {
+export const MessageItem: React.FC<MessageItemProps> = ({
+  message,
+  onRetry,
+}) => {
   const { user } = useAuth();
 
   const isOwnMessage =
@@ -24,26 +29,39 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message }) => {
   };
 
   if (isOwnMessage) {
+    const isBeingSent = message.status === "sending";
+    const hasFailed = message.status === "failed";
+
     return (
       <div className="flex justify-end mb-3">
         <div className="max-w-xs lg:max-w-md">
-          <div className="bg-blue-500 text-white px-4 py-3 rounded-2xl rounded-br-md shadow-md">
+          <div
+            className={`text-white px-4 py-3 rounded-2xl rounded-br-md shadow-md transition-all duration-200 ${
+              hasFailed
+                ? "bg-red-500"
+                : isBeingSent
+                ? "bg-blue-400 opacity-75"
+                : "bg-blue-500"
+            }`}
+          >
             <p className="text-sm leading-relaxed whitespace-pre-wrap wrap-break-word">
               {message?.content}
             </p>
             <div className="text-xs mt-2 text-right text-blue-100 flex items-center justify-end space-x-1">
               <span>{formatTime(message?.createdAt)}</span>
-              <svg
-                className="w-4 h-4 text-blue-100"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              {message.status === "sending" ? (
+                <LoadingSpinnerSvg className="w-4 h-4 text-blue-200 animate-spin" />
+              ) : message.status === "failed" ? (
+                <button
+                  onClick={() => onRetry?.(message)}
+                  className="hover:scale-110 transition-transform"
+                  title="Tentar novamente"
+                >
+                  <ErrorSvg className="w-4 h-4 text-red-300 hover:text-red-200" />
+                </button>
+              ) : (
+                <CheckSvg className="w-4 h-4 text-blue-100" />
+              )}
             </div>
           </div>
         </div>

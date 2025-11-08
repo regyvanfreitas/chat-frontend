@@ -15,8 +15,11 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
   chat,
   showHeader = true,
 }) => {
-  const { messages, isLoading, sendMessage } = useMessages(chat.id);
   const { user } = useAuth();
+  const { messages, isLoading, sendMessage, retryMessage } = useMessages(
+    chat.id,
+    user || undefined
+  );
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [isTyping, setIsTyping] = useState(false);
   const typingTimeoutRef = useRef<number | null>(null);
@@ -228,7 +231,11 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
                   </div>
 
                   {dateMessages.map((message) => (
-                    <MessageItem key={message.id} message={message} />
+                    <MessageItem
+                      key={message.id}
+                      message={message}
+                      onRetry={retryMessage}
+                    />
                   ))}
                 </div>
               ))}

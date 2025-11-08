@@ -28,6 +28,8 @@ export interface Message {
   type?: "text" | "image" | "file";
   createdAt: string;
   updatedAt?: string;
+  status?: "sending" | "sent" | "failed";
+  isOptimistic?: boolean;
 }
 
 export interface ApiResponse<T> {
