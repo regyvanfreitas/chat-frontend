@@ -129,14 +129,14 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
         </button>
       </div>
 
-      <div className="text-center">
+      {/* <div className="text-center">
         <button
           type="button"
           className="text-sm text-blue-600 hover:text-blue-700 transition-colors duration-200 cursor-pointer"
         >
           Esqueceu sua senha?
         </button>
-      </div>
+      </div> */}
     </form>
   );
 };
