@@ -19,8 +19,7 @@ export const useMessages = (chatId: number | null, currentUser?: User) => {
         setIsLoading(true);
         const messagesList = await apiService.getMessages(chatId);
         setMessages(messagesList);
-      } catch (error) {
-        console.error("Error fetching messages:", error);
+      } catch {
         alert("Erro ao carregar mensagens");
       } finally {
         setIsLoading(false);
@@ -106,8 +105,7 @@ export const useMessages = (chatId: number | null, currentUser?: User) => {
       setIsLoading(true);
       const messagesList = await apiService.getMessages(chatId);
       setMessages(messagesList);
-    } catch (error) {
-      console.error("Error refetching messages:", error);
+    } catch {
       alert("Erro ao carregar mensagens");
     } finally {
       setIsLoading(false);

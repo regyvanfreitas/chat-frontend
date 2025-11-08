@@ -41,9 +41,7 @@ export const useChats = () => {
       setIsLoading(true);
       const chatsList = await apiService.getChats();
       setChats(Array.isArray(chatsList) ? chatsList : []);
-    } catch (error) {
-      console.error("Error fetching chats:", error);
-      alert("Erro ao carregar chats");
+    } catch {
       setChats([]);
     } finally {
       setIsLoading(false);
@@ -65,10 +63,8 @@ export const useChats = () => {
       } else {
         setSelectedChat(newChat);
       }
-    } catch (error) {
-      console.error("Error creating chat:", error);
+    } catch {
       alert("Erro ao criar chat");
-      throw error;
     } finally {
       setIsLoading(false);
     }

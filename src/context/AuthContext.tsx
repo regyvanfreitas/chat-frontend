@@ -28,8 +28,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setToken(savedToken);
         setUser(parsedUser);
         websocketService.connect(savedToken);
-      } catch (error) {
-        console.error("Error parsing saved user data:", error);
+      } catch {
         localStorage.removeItem("chat-token");
         localStorage.removeItem("chat-user");
       }
@@ -63,9 +62,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setUser(loggedUser);
 
       websocketService.connect(authToken);
-    } catch (error) {
-      console.error("Login error:", error);
-      throw error;
     } finally {
       setIsLoading(false);
     }
@@ -85,9 +81,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       });
 
       await login(email, password);
-    } catch (error) {
-      console.error("Registration error:", error);
-      throw error;
     } finally {
       setIsLoading(false);
     }

@@ -41,9 +41,8 @@ export const ChatPage: React.FC = () => {
 
       await createChat(chatData);
       setShowNewChatModal(false);
-    } catch (error) {
-      console.error("Error creating chat:", error);
-      throw error;
+    } catch {
+      console.error("Error creating chat:");
     }
   };
 

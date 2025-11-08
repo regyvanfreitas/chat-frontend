@@ -41,8 +41,6 @@ export const MessageInput: React.FC<MessageInputProps> = ({
       setIsSending(true);
       await onSendMessage(trimmedMessage);
       setMessage("");
-    } catch (error) {
-      console.error("Error sending message:", error);
     } finally {
       setIsSending(false);
     }

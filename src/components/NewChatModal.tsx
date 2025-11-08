@@ -36,10 +36,8 @@ export const NewChatModal: React.FC<NewChatModalProps> = ({
       setIsLoading(true);
       const usersList = await apiService.getUsers();
       const filteredUsers = usersList?.filter((u) => u.id !== currentUser?.id);
-      console.log(usersList);
       setUsers(filteredUsers);
-    } catch (error) {
-      console.error("Error fetching users:", error);
+    } catch {
       alert("Erro ao carregar usuários");
     } finally {
       setIsLoading(false);
@@ -73,8 +71,7 @@ export const NewChatModal: React.FC<NewChatModalProps> = ({
       setChatName("");
       setSearchTerm("");
       onClose();
-    } catch (error) {
-      console.error("Error creating chat:", error);
+    } catch {
       alert("Erro ao criar conversa");
     } finally {
       setIsCreating(false);

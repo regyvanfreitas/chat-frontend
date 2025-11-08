@@ -35,8 +35,7 @@ export const decodeJWT = (token: string): Record<string, unknown> | null => {
     const payload = parts[1];
     const decodedPayload = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
     return JSON.parse(decodedPayload) as Record<string, unknown>;
-  } catch (error) {
-    console.error('Erro ao decodificar JWT:', error);
+  } catch {
     return null;
   }
 };
