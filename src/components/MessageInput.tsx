@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import type { KeyboardEvent } from "react";
 import { SendSvg } from "./Icons";
 
@@ -17,6 +17,7 @@ export const MessageInput: React.FC<MessageInputProps> = ({
 }) => {
   const [message, setMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
@@ -41,6 +42,10 @@ export const MessageInput: React.FC<MessageInputProps> = ({
       setIsSending(true);
       await onSendMessage(trimmedMessage);
       setMessage("");
+
+      if (textareaRef.current) {
+        textareaRef.current.style.height = "40px";
+      }
     } finally {
       setIsSending(false);
     }
@@ -54,6 +59,7 @@ export const MessageInput: React.FC<MessageInputProps> = ({
       <div className="flex space-x-2">
         <div className="flex-1">
           <textarea
+            ref={textareaRef}
             value={message}
             onChange={(e) => {
               setMessage(e.target.value);
