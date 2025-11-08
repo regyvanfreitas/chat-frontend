@@ -4,7 +4,7 @@ Frontend completo de um aplicativo de chat entre usuários construído com React
 
 ## 🌐 Acesso à Aplicação
 
-**🚀 [Acesse a aplicação em produção](https://chat-app-rf.vercel.app/)**
+** <a href="https://chat-app-rf.vercel.app/" target="_blank" rel="noopener noreferrer">Acesse a aplicação em produção</a>**
 
 > Interface de chat em tempo real totalmente responsiva e otimizada.
 
