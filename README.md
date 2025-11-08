@@ -2,6 +2,12 @@
 
 Frontend completo de um aplicativo de chat entre usuários construído com React + Vite + TypeScript + Tailwind CSS.
 
+## 🌐 Acesso à Aplicação
+
+**🚀 [Acesse a aplicação em produção](https://chat-app-rf.vercel.app/)**
+
+> Interface de chat em tempo real totalmente responsiva e otimizada.
+
 ## 🚀 Funcionalidades Implementadas
 
 - ✅ **Autenticação JWT** - Login e Registro com token JWT
@@ -153,3 +159,40 @@ src/
 - Context API para autenticação
 - Hooks customizados para chats e mensagens
 - Estado sincronizado com WebSocket
+
+## 🚀 Deploy e Produção
+
+### Aplicação em Produção
+
+- **URL**: [https://sua-url-de-producao.com](https://sua-url-de-producao.com)
+- **Status**: ✅ Online
+- **Última atualização**: Novembro 2025
+
+### Configuração de Deploy
+
+Para deploy em produção, certifique-se de:
+
+1. **Configurar variáveis de ambiente de produção**:
+
+   ```env
+   VITE_API_URL=https://sua-api-producao.com
+   VITE_WS_URL=https://sua-api-producao.com
+   VITE_NODE_ENV=production
+   ```
+
+2. **Build da aplicação**:
+
+   ```bash
+   npm run build
+   ```
+
+3. **Servir arquivos estáticos**:
+   - Deploy da pasta `dist/` no seu provedor
+   - Configurar redirecionamentos SPA para `index.html`
+
+### Provedores Recomendados
+
+- **Vercel** - Deploy automático via Git
+- **Netlify** - Build e deploy contínuo
+- **GitHub Pages** - Hosting gratuito
+- **AWS S3 + CloudFront** - Solução escalável
