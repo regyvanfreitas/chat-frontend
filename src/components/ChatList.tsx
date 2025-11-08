@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import type { Chat } from "../types";
 import { ChatItem } from "./ChatItem";
 import { ChatSvg } from "./Icons";
+import { ChatListSkeleton } from "./SkeletonLoaders";
 
 interface ChatListProps {
   chats: Chat[];
@@ -36,14 +37,7 @@ export const ChatList: React.FC<ChatListProps> = ({
   }, [chats]);
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-32">
-        <div className="flex flex-col items-center space-y-3">
-          <div className="animate-spin rounded-full h-8 w-8 border-2 border-blue-500 border-t-transparent"></div>
-          <span className="text-sm text-gray-500">Carregando conversas...</span>
-        </div>
-      </div>
-    );
+    return <ChatListSkeleton />;
   }
 
   if (chats?.length === 0) {

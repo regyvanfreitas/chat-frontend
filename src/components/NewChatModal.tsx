@@ -3,6 +3,7 @@ import type { User } from "../types";
 import { apiService } from "../services/api";
 import { useAuth } from "../hooks/useAuth";
 import { PlusSvg, XSvg, UserSvg, CheckSvg } from "./Icons";
+import { UserListSkeleton } from "./SkeletonLoaders";
 
 interface NewChatModalProps {
   isOpen: boolean;
@@ -148,14 +149,7 @@ export const NewChatModal: React.FC<NewChatModalProps> = ({
 
             <div className="max-h-80 overflow-y-auto border border-gray-200 rounded-xl bg-gray-50/50">
               {isLoading ? (
-                <div className="flex items-center justify-center py-12">
-                  <div className="flex flex-col items-center space-y-3">
-                    <div className="animate-spin rounded-full h-8 w-8 border-2 border-blue-500 border-t-transparent"></div>
-                    <span className="text-sm text-gray-500">
-                      Carregando usuários...
-                    </span>
-                  </div>
-                </div>
+                <UserListSkeleton />
               ) : filteredUsers?.length === 0 ? (
                 <div className="text-center py-12 text-gray-500">
                   <div className="h-12 w-12 bg-gray-200 rounded-xl flex items-center justify-center mx-auto mb-3">
@@ -185,7 +179,7 @@ export const NewChatModal: React.FC<NewChatModalProps> = ({
                       }`}
                     >
                       <div className="shrink-0">
-                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center shadow-lg">
                           <span className="text-white font-semibold text-lg">
                             {user.name?.charAt(0)?.toUpperCase()}
                           </span>

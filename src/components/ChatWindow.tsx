@@ -5,10 +5,11 @@ import { MessageInput } from "./MessageInput";
 import { useMessages } from "../hooks/useMessages";
 import { useAuth } from "../hooks/useAuth";
 import { websocketService } from "../services/websocket";
+import { MessagesListSkeleton } from "./SkeletonLoaders";
 
 interface ChatWindowProps {
   chat: Chat;
-  showHeader?: boolean; // Prop para controlar se mostra o header
+  showHeader?: boolean;
 }
 
 export const ChatWindow: React.FC<ChatWindowProps> = ({
@@ -155,14 +156,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
 
       <div className="flex-1 overflow-y-auto p-4 bg-linear-to-b from-gray-50 to-white">
         {isLoading ? (
-          <div className="flex items-center justify-center h-full">
-            <div className="flex flex-col items-center space-y-3">
-              <div className="animate-spin rounded-full h-8 w-8 border-2 border-blue-500 border-t-transparent"></div>
-              <span className="text-sm text-gray-500">
-                Carregando mensagens...
-              </span>
-            </div>
-          </div>
+          <MessagesListSkeleton />
         ) : messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full">
             <div className="text-center space-y-4 max-w-md mx-auto">
