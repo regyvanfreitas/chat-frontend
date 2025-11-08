@@ -42,6 +42,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const authResponse = await apiService.loginUser({ email, password });
 
       const authToken = authResponse.access_token;
+      const userName = authResponse.name;
 
       const decodedToken = decodeJWT(authToken);
       if (!decodedToken) {
@@ -51,7 +52,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const loggedUser: User = {
         id: parseInt(decodedToken.sub as string, 10),
         email: decodedToken.email as string,
-        name: decodedToken.name as string,
+        name: userName,
         createdAt: new Date().toISOString(),
       };
 

@@ -40,6 +40,7 @@ export interface ApiResponse<T> {
 
 export interface AuthResponse {
   access_token: string;
+  name: string;
 }
 
 export interface RegisterResponse {

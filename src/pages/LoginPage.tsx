@@ -14,7 +14,6 @@ export const LoginPage: React.FC = () => {
     <div className="min-h-screen flex">
       <div className="flex-1 md:hidden bg-linear-to-br from-blue-50 via-sky-50 to-cyan-50 px-8 py-12 flex flex-col justify-center min-h-screen">
         <div className="w-full max-w-sm mx-auto space-y-8 my-auto">
-          {/* Logo e Header */}
           <div className="text-center">
             <div className="flex justify-center mb-6">
               <div className="h-16 w-16 bg-blue-500 rounded-3xl flex items-center justify-center shadow-lg">

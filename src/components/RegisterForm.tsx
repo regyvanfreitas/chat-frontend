@@ -50,7 +50,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
           htmlFor="name"
           className="block text-sm font-semibold text-gray-900"
         >
-          Nome de usuário
+          Nome
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">

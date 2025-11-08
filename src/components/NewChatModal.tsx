@@ -178,7 +178,7 @@ export const NewChatModal: React.FC<NewChatModalProps> = ({
                     <div
                       key={user.id}
                       onClick={() => handleUserSelect(user.id)}
-                      className={`flex items-center p-3 cursor-pointer rounded-xl transition-all duration-200 hover:scale-[1.02] mb-1 ${
+                      className={`flex items-center p-3 cursor-pointer rounded-xl transition-all duration-200 hover:scale-[1.02] mb-1 min-w-0 ${
                         selectedUsers.includes(user.id)
                           ? "bg-blue-100 border border-blue-200 shadow-sm"
                           : "hover:bg-white/80"
@@ -191,11 +191,13 @@ export const NewChatModal: React.FC<NewChatModalProps> = ({
                           </span>
                         </div>
                       </div>
-                      <div className="ml-4 flex-1">
-                        <p className="text-sm font-semibold text-gray-900">
+                      <div className="ml-4 flex-1 min-w-0">
+                        <p className="text-sm font-semibold text-gray-900 truncate">
                           {user.name}
                         </p>
-                        <p className="text-sm text-gray-600">{user.email}</p>
+                        <p className="text-sm text-gray-600 truncate">
+                          {user.email}
+                        </p>
                       </div>
                       {selectedUsers?.includes(user.id) && (
                         <div className="text-blue-500 bg-white rounded-full p-1 shadow-sm">

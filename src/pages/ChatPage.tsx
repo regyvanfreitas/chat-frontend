@@ -145,9 +145,9 @@ export const ChatPage: React.FC = () => {
                 </div>
 
                 {chats?.length === 0 && (
-                  <div className="pt-8 space-y-3">
-                    <div className="flex items-center justify-center space-x-3 text-gray-500">
-                      <div className="h-6 w-6 bg-blue-100 rounded-full flex items-center justify-center">
+                  <div className="pt-8 space-y-4">
+                    <div className="flex items-center space-x-3 text-gray-500">
+                      <div className="h-6 w-6 bg-blue-100 rounded-full flex items-center justify-center shrink-0">
                         <svg
                           className="h-3 w-3 text-blue-500"
                           fill="none"
@@ -164,8 +164,8 @@ export const ChatPage: React.FC = () => {
                       </div>
                       <span className="text-sm">Mensagens em tempo real</span>
                     </div>
-                    <div className="flex items-center justify-center space-x-3 text-gray-500">
-                      <div className="h-6 w-6 bg-blue-100 rounded-full flex items-center justify-center">
+                    <div className="flex items-center space-x-3 text-gray-500">
+                      <div className="h-6 w-6 bg-blue-100 rounded-full flex items-center justify-center shrink-0">
                         <svg
                           className="h-3 w-3 text-blue-500"
                           fill="none"
@@ -182,8 +182,8 @@ export const ChatPage: React.FC = () => {
                       </div>
                       <span className="text-sm">Interface intuitiva</span>
                     </div>
-                    <div className="flex items-center justify-center space-x-3 text-gray-500">
-                      <div className="h-6 w-6 bg-blue-100 rounded-full flex items-center justify-center">
+                    <div className="flex items-center space-x-3 text-gray-500">
+                      <div className="h-6 w-6 bg-blue-100 rounded-full flex items-center justify-center shrink-0">
                         <svg
                           className="h-3 w-3 text-blue-500"
                           fill="none"
